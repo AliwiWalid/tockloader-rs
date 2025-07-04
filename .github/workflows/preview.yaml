@@ -1,7 +1,7 @@
-name: Deploy mdBook to GitHub Pages
+name: PR Preview 
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -18,14 +18,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install mdBook if missing
-        run: |
-          if ! command -v mdbook >/dev/null; then
-            echo "mdbook not found, installing..."
-            cargo install mdbook --version "^0.4"
-          else
-            echo "mdbook is already installed"
-          fi
+      - name: Install mdBook
+        run: cargo install mdbook
 
       - name: Build mdBook
         run: mdbook build docs
@@ -39,9 +33,9 @@ jobs:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     environment:
-      name: production
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (PR preview)
         id: deployment
         uses: actions/deploy-pages@v2
