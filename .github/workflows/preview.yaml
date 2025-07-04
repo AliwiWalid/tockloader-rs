@@ -2,8 +2,7 @@ name: PR Preview
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -12,7 +11,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -23,14 +22,12 @@ jobs:
 
       - name: Install mdBook
         run: |
-          if ! command -v mdbook >/dev/null; then
-            cargo install mdbook --version "^0.4"
-          fi
+          cargo install mdbook
 
       - name: Build mdBook
         run: mdbook build docs
 
-      - name: Upload GitHub Pages artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/book
@@ -41,6 +38,5 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - name: Deploy to GitHub Pages (PR preview)
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
