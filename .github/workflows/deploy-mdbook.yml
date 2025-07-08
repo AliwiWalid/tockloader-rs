@@ -3,6 +3,7 @@ name: Deploy mdBook to GitHub Pages
 on:
   push:
     branches:
+      -preview-test
       - main
 
 permissions:
