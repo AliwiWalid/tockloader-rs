@@ -4,7 +4,7 @@ TEMPLATE="./docs/book.template.toml"
 OUTPUT="./docs/book.toml"
 
 if [ "$1" = "preview" ]; then
-  SITE_URL="/tockloader-rs/pr-preview/$2/"
+  SITE_URL="/tockloader-rs/pr-preview/pr-$2/"
 else
   SITE_URL="./"
 fi
