@@ -22,14 +22,15 @@ jobs:
       - name: Install mdBook
         run: cargo install mdbook
 
-      - name: Build mdBook
-        run: mdbook build docs
-
       - name: Generate book.toml for preview
         run: ./tools/gen_book_toml.sh preview ${{ github.event.number }}
+
+      - name: Build mdBook
+        run: mdbook build docs
 
       - name: Deploy PR Preview
         uses: rossjrw/pr-preview-action@v1.4.7
         with:
           source-dir: docs/book
           umbrella-dir: docs/pr-preview
+
